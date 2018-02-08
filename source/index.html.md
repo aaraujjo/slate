@@ -17,7 +17,9 @@ search: true
 Users levels: 
 
 1 -> clients
+
 2 -> cashiers
+
 3 -> retailers
 
 ### HTTP Request
@@ -32,6 +34,19 @@ email | Usado apenas no login do retailer, é utilizado para identificar o mesmo
 cpf | Utilizado para autenticar cliente e caixa
 password | -----------
 level | Como passado na descrição da seção, identifica o nivel do usuário
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "user":  {
+      ... user_object ...
+    },
+    "token": "auth_token"
+  }
+]
+```
 
 
 # Kittens
