@@ -35,7 +35,14 @@ cpf | Utilizado para autenticar cliente e caixa
 password | -----------
 level | Como passado na descrição da seção, identifica o nivel do usuário
 
-> The above command returns JSON structured like this:
+```shell
+curl "https://www.queropontos.com.br/login"
+  -H "Content-Type: application/json" 
+  -X POST
+  -d '{"email":"xyz","password":"xyz", "level": "1"}'
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
 
 ```json
 [
@@ -49,175 +56,109 @@ level | Como passado na descrição da seção, identifica o nivel do usuário
 ```
 
 
-# Kittens
+# Retailers
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+## GET retailer
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "https://www.queropontos.com.br/retailer/:_id"
+  -H "Content-Type: application/json" 
+  -X GET
+  -d '{"token": "auth_token"}'
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> O comando acima retorna um JSON estruturado dessa forma:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "_id": ":_id",  // ID DO USUÁRIO
+  "name": "Loja do Arthur", // NOME DO RETAILER
+  "email": "retailer@queropontos.com.br", // EMAIL DO RETAILER
+  "razaoSocial": "Razao Social - LTDA", // RAZAO SOCIAL DO RETALER
+  "uf": "SP", // ENDEREÇO DO RETAILER
+  "city": "Osasco", // ENDEREÇO DO RETAILER
+  "street": "Rua em Osasco",  // ENDEREÇO DO RETAILER
+  "number":"00",  // ENDEREÇO DO RETAILER
+  "neighborhood":"Bairro em Osasco",  // ENDEREÇO DO RETAILER
+  "zipcode":"06060000", // ENDEREÇO DO RETAILER
+  "actualPackage":"_id", // _ID DO PACOTE DE PONTOS ATUAL
+  "manager":"_id", // _ID DO GERENTE DO RETAILER
+  "status":true,  // STATUS DO RETAILER
+  "totalScores":950,  // PONTUAÇÃO ATUAL DO RETAILER
+  "totalUsedScores":50, // PONTUAÇÃO UTILIZADA
+  "usedScores":[{
+    "_id":"5a7c5b23e15bc837f47a3dc3", // DETALHE DO USO DA PONTUAÇÃO (_ID DA VENDA)
+    "cashier":"5a7c55a9e15bc837f47a3dc2", // DETALHE DO USO DA PONTUAÇÃO (_ID DO CAIXA QUE DEU A PONTUAÇÃO)
+    "client":"5a7c5b11b54e3a26f273abe2", // DETALHE DO USO DA PONTUAÇÃO (_ID DO CLIENTE QUE RECEBEU A PONTUAÇÃO)
+    "scores":50, // DETALHE DO USO DA PONTUAÇÃO (VALOR DO PONTO)
+    "date":"2018-02-08T14:13:55.272Z", // DETALHE DO USO DA PONTUAÇÃO (TIMESTAMP)
+  }],
+  "created_at":"2018-02-07T19:16:25.355Z",  // TIMESTAMP DE CRIAÇÃO USUÁRIO
+  }
+}
+```
+
+Esse endpoint retorna um retailer especifico
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/retailer/<:_id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+:_id | O Id do retailer
+
+## Editar um retailer especifico
+
+```shell
+curl "https://www.queropontos.com.br/retailer/:_id"
+  -H "Content-Type: application/json" 
+  -X PUT
+  -d '{"token": "auth_token", }'
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": ":_id",  // ID DO USUÁRIO
+  "name": "Loja do Arthur", // NOME DO RETAILER
+  "email": "retailer@queropontos.com.br", // EMAIL DO RETAILER
+  "razaoSocial": "Razao Social - LTDA", // RAZAO SOCIAL DO RETALER
+  "uf": "SP", // ENDEREÇO DO RETAILER
+  "city": "Osasco", // ENDEREÇO DO RETAILER
+  "street": "Rua em Osasco",  // ENDEREÇO DO RETAILER
+  "number":"00",  // ENDEREÇO DO RETAILER
+  "neighborhood":"Bairro em Osasco",  // ENDEREÇO DO RETAILER
+  "zipcode":"06060000", // ENDEREÇO DO RETAILER
+  "actualPackage":"_id", // _ID DO PACOTE DE PONTOS ATUAL
+  "manager":"_id", // _ID DO GERENTE DO RETAILER
+  "status":true,  // STATUS DO RETAILER
+  "totalScores":950,  // PONTUAÇÃO ATUAL DO RETAILER
+  "totalUsedScores":50, // PONTUAÇÃO UTILIZADA
+  "usedScores":[{
+    "_id":"5a7c5b23e15bc837f47a3dc3", // DETALHE DO USO DA PONTUAÇÃO (_ID DA VENDA)
+    "cashier":"5a7c55a9e15bc837f47a3dc2", // DETALHE DO USO DA PONTUAÇÃO (_ID DO CAIXA QUE DEU A PONTUAÇÃO)
+    "client":"5a7c5b11b54e3a26f273abe2", // DETALHE DO USO DA PONTUAÇÃO (_ID DO CLIENTE QUE RECEBEU A PONTUAÇÃO)
+    "scores":50, // DETALHE DO USO DA PONTUAÇÃO (VALOR DO PONTO)
+    "date":"2018-02-08T14:13:55.272Z", // DETALHE DO USO DA PONTUAÇÃO (TIMESTAMP)
+  }],
+  "created_at":"2018-02-07T19:16:25.355Z",  // TIMESTAMP DE CRIAÇÃO USUÁRIO
+  }
 }
 ```
 
 This endpoint retrieves a specific kitten.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://www.queropontos.com.br/retailer/<:_id>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+:_id | O Id do retailer
 
