@@ -56,7 +56,7 @@ curl "https://www.queropontos.com.br/login"
 
 # Retailers
 
-## GET retailer
+## Get a retailer
 
 ```shell
 curl "https://www.queropontos.com.br/retailer/:_id"
@@ -107,7 +107,7 @@ Parameter | Description
 --------- | -----------
 :_id | O Id do retailer
 
-## Editar um retailer especifico
+## Edit a specific retailer
 
 ```shell
 curl "https://www.queropontos.com.br/retailer/:_id"
@@ -162,7 +162,7 @@ Parameter | Description
 
 # Stores
 
-## CREATE store
+## Create a store
 
 ```shell
 curl "https://www.queropontos.com.br/stores/"
@@ -210,7 +210,7 @@ Parameter | Description
 --------- | -----------
 store_id | Id da loja
 
-## GET all stores
+## Get all stores
 
 ```shell
 curl "https://www.queropontos.com.br/stores"
@@ -274,7 +274,7 @@ Esse endpoint retorna todas as lojas cadastradas no sistema
 
 `GET https://www.queropontos.com.br/stores`
 
-## GET store
+## Get a store
 
 ```shell
 curl "https://www.queropontos.com.br/stores/<store_id>"
@@ -321,14 +321,14 @@ Parameter | Description
 --------- | -----------
 store_id | Id da loja
 
-## EDIT store
+## Edit a store
 
 ```shell
 curl "https://www.queropontos.com.br/stores/<store_id>"
   -H "Content-Type: application/json" 
   -H "x-access-token: auth_token" 
   -X PUT
-  -d "{description: 'Barbearia e produtos para cuidados facial masculino.'}"
+  -d "{'description': 'Barbearia e produtos para cuidados facial masculino.'}"
 ```
 
 > O comando acima retorna um JSON estruturado dessa forma:
@@ -369,7 +369,7 @@ Parameter | Description
 --------- | -----------
 store_id | Id da loja
 
-## DELETE store
+## Delete a store
 
 ```shell
 curl "https://www.queropontos.com.br/stores/<store_id>"
@@ -416,7 +416,7 @@ Parameter | Description
 --------- | -----------
 store_id | Id da loja
 
-## GET store by retailer Id
+# Get a store by retailer id
 
 ```shell
 curl "https://www.queropontos.com.br/stores/retailers/<retailer_id>"
@@ -465,7 +465,7 @@ retailer_id | Id do retailer
 
 # Cashiers
 
-## GET all cashiers
+## Get all cashiers
 
 ```shell
 curl "https://www.queropontos.com.br/cashiers"
@@ -505,14 +505,14 @@ Esse endpoint retorna todos os caixas cadastrados no sistema
 
 `GET https://www.queropontos.com.br/cashiers`
 
-## Create cashier
+## Create a cashier
 
 ```shell
 curl "https://www.queropontos.com.br/cashiers/"
   -H "Content-Type: application/json" 
   -H "x-access-token: auth_token" 
   -X POST
-  -d '{name: "Caixa 01", cpf: "99999999999", email: "caixa01@email.com", phone: "1199999999", storeId: "59c99fac8cd9d76ecf7c61c5", retailerId: "59c99fac8cd9d76ecf7c61c3"}'
+  -d '{name: "Caixa 01", cpf: "99999999999", email: "caixa01@email.com", phone: "1199999999", password: "159753", storeId: "59c99fac8cd9d76ecf7c61c5", retailerId: "59c99fac8cd9d76ecf7c61c3"}'
 ```
 
 > O comando acima retorna um JSON estruturado dessa forma:
@@ -529,13 +529,13 @@ curl "https://www.queropontos.com.br/cashiers/"
 },
 ```
 
-Esse endpoint retorna todos os caixas cadastrados em uma loja
+Esse endpoint cadastra um novo caixa
 
 ### HTTP Request
 
 `GET https://www.queropontos.com.br/cashiers/`
 
-## Edit cashiers
+## Edit a cashier
 
 ```shell
 curl "https://www.queropontos.com.br/cashiers/"
@@ -559,7 +559,37 @@ curl "https://www.queropontos.com.br/cashiers/"
 },
 ```
 
-Esse endpoint retorna todos os caixas cadastrados em uma loja
+Esse endpoint edita um caixa especifico
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/cashiers/`
+
+## Delete a cashier
+
+```shell
+curl "https://www.queropontos.com.br/cashiers/"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X PUT
+  -d '{"_id": "59c9a08a8cd9d76ecf7c61c6", "storeId": "59c99fac8cd9d76ecf7c61c5", "retailerId": "59c99fac8cd9d76ecf7c61c3"}'
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "59c9a08a8cd9d76ecf7c61c6", // ID DO CAIXA
+  "name": "John Doe", // NOME DO CAIXA
+  "cpf": "99999999999", // CPF DO CAIXA
+  "email": "caixa01@email.com", // EMAIL DO CAIXA
+  "phone": "1199999999", // PHONE DO CAIXA
+  "storeId": "59c99fac8cd9d76ecf7c61c5", // LOJA A QUAL O CAIXA PERTENCE
+  "retailerId": "59c99fac8cd9d76ecf7c61c3", // RETAILER A QUAL O CAIXA E LOJA PERTECEM
+},
+```
+
+Esse endpoint deleta um caixa especifico
 
 ### HTTP Request
 
