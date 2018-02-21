@@ -416,7 +416,7 @@ Parameter | Description
 --------- | -----------
 store_id | Id da loja
 
-# Get a store by retailer id
+## Get a store by retailer id
 
 ```shell
 curl "https://www.queropontos.com.br/stores/retailers/<retailer_id>"
@@ -640,3 +640,66 @@ Esse endpoint retorna todos os caixas cadastrados em uma loja
 Parameter | Description
 --------- | -----------
 store_id | Id da loja
+
+## Add a client
+
+```shell
+curl "https://www.queropontos.com.br/cashiers/addclient"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X PUT
+  -d "{'cpf': '99999999999', 'storeId': '59c99fac8cd9d76ecf7c61c5', 'retailerId': '59c99fac8cd9d76ecf7c61c3'}"
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "5a1f0fc5ba09b10230babd67", // CLIENT ID
+  "name": "John Doe", // CLIENT NAME
+  "email": "johndoe@email.com", // CLIENT EMAIL
+  "cpf": "99999999999", // CLIENT CPF
+  ... client_object ...
+}
+```
+
+Esse endpoint verifica se o cliente que passou no caixa existe, caso não existe o CPF do cliente é registrado no sistema
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/cashiers/addclient`
+
+## Add score to a client
+
+```shell
+curl "https://www.queropontos.com.br/cashiers/addscore"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X PUT
+  -d "{'scores': 150, 'clientId: '5a1f0fc5ba09b10230babd67'}"
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "5a1f0fc5ba09b10230babd67", // CLIENT ID
+  "name": "John Doe", // CLIENT NAME
+  "email": "johndoe@email.com", // CLIENT EMAIL
+  "cpf": "99999999999", // CLIENT CPF
+  ... client_object ...
+}
+```
+
+Esse endpoint verifica se o cliente que passou no caixa existe, caso não existe o CPF do cliente é registrado no sistema
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/cashiers/addscore`
+
+### Form Parameters
+
+Parameter | Description
+--------- | -----------
+scores | Quantidade de pontos a dar ao cliente
+clientId | Id do cliente que receberá os pontos
