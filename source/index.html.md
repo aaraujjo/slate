@@ -12,7 +12,7 @@ search: true
 ---
 
 
-# Authentication
+# Autenticação
 
 Users levels: 
 
@@ -47,9 +47,7 @@ curl "https://www.queropontos.com.br/login"
 ```json
 [
   {
-    "user":  {
-      ... user_object ...
-    },
+    ... user_object ...,
     "token": "auth_token"
   }
 ]
@@ -63,8 +61,8 @@ curl "https://www.queropontos.com.br/login"
 ```shell
 curl "https://www.queropontos.com.br/retailer/:_id"
   -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
   -X GET
-  -d '{"token": "auth_token"}'
 ```
 
 > O comando acima retorna um JSON estruturado dessa forma:
@@ -72,7 +70,7 @@ curl "https://www.queropontos.com.br/retailer/:_id"
 ```json
 {
   "_id": ":_id",  // ID DO USUÁRIO
-  "name": "Loja do Arthur", // NOME DO RETAILER
+  "name": "Lojas do Osasco", // NOME DO RETAILER
   "email": "retailer@queropontos.com.br", // EMAIL DO RETAILER
   "razaoSocial": "Razao Social - LTDA", // RAZAO SOCIAL DO RETALER
   "uf": "SP", // ENDEREÇO DO RETAILER
@@ -94,7 +92,6 @@ curl "https://www.queropontos.com.br/retailer/:_id"
     "date":"2018-02-08T14:13:55.272Z", // DETALHE DO USO DA PONTUAÇÃO (TIMESTAMP)
   }],
   "created_at":"2018-02-07T19:16:25.355Z",  // TIMESTAMP DE CRIAÇÃO USUÁRIO
-  }
 }
 ```
 
@@ -115,8 +112,9 @@ Parameter | Description
 ```shell
 curl "https://www.queropontos.com.br/retailer/:_id"
   -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
   -X PUT
-  -d '{"token": "auth_token", }'
+  -d '{"name": "Novo nome da Loja", "email": "email@queropontos.com.br"}'
 ```
 
 > O comando acima retorna um JSON estruturado dessa forma:
@@ -124,7 +122,7 @@ curl "https://www.queropontos.com.br/retailer/:_id"
 ```json
 {
   "_id": ":_id",  // ID DO USUÁRIO
-  "name": "Loja do Arthur", // NOME DO RETAILER
+  "name": "Loja de Osasco", // NOME DO RETAILER
   "email": "retailer@queropontos.com.br", // EMAIL DO RETAILER
   "razaoSocial": "Razao Social - LTDA", // RAZAO SOCIAL DO RETALER
   "uf": "SP", // ENDEREÇO DO RETAILER
@@ -146,11 +144,10 @@ curl "https://www.queropontos.com.br/retailer/:_id"
     "date":"2018-02-08T14:13:55.272Z", // DETALHE DO USO DA PONTUAÇÃO (TIMESTAMP)
   }],
   "created_at":"2018-02-07T19:16:25.355Z",  // TIMESTAMP DE CRIAÇÃO USUÁRIO
-  }
 }
 ```
 
-This endpoint retrieves a specific kitten.
+Esse endpoint edita um retailer especifico.
 
 ### HTTP Request
 
@@ -162,3 +159,454 @@ Parameter | Description
 --------- | -----------
 :_id | O Id do retailer
 
+
+# Stores
+
+## CREATE store
+
+```shell
+curl "https://www.queropontos.com.br/stores/"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X POST
+  -d '{"name": "Salão de Barbearia Hipster", "description": "Barbearia e produtos para cuidados facial masculino. Aberto de terça a domingo à partir das 14h. Consulte agenda no site www.barbeariahipster.com.br", "cnpj": "25493685000186", "phone": "11999999999", "street": "St Quero Pontos", "number": "01", "city": "Osasco", "uf": "SP", "zipcode": "Zipcode", "retailerId": "59c99fac8cd9d76ecf7c61c3"}'
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "59c99fac8cd9d76ecf7c61c5",
+  "name": "Salão de Barbearia Hipster",
+  "description": "Barbearia e produtos para cuidados facial masculino. Aberto de terça a domingo à partir das 14h. Consulte agenda no site www.barbeariahipster.com.br",
+  "cnpj": "25493685000186",
+  "phone": "11999999999",
+  "retailerId": {
+    ...retailer_object...
+  },
+  "formatted_address": "Endereço Formatado, 1154, Osasco, SP",
+  "street": "St Quero Pontos",
+  "number": "01",
+  "city": "Osasco",
+  "uf": "SP",
+  "zipcode": "ZIPCODE",
+  "coordinates": [
+    -23.5555939,
+    -46.7874398
+  ],
+  "subscribed": "2017-09-26T00:30:36.668Z"
+}
+```
+
+Esse endpoint registra uma nova loja
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/stores`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+store_id | Id da loja
+
+## GET all stores
+
+```shell
+curl "https://www.queropontos.com.br/stores"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X GET
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+[
+  {
+    "_id": "59c99fac8cd9d76ecf7c61c5",
+    "name": "Salão de Barbearia Hipster",
+    "description": "Barbearia e produtos para cuidados facial masculino. Aberto de terça a domingo à partir das 14h. Consulte agenda no site www.barbeariahipster.com.br",
+    "cnpj": "25493685000186",
+    "phone": "11999999999",
+    "retailerId": {
+      ...retailer_object...
+    },
+    "formatted_address": "Endereço Formatado, 1154, Osasco, SP",
+    "street": "St Quero Pontos",
+    "number": "01",
+    "city": "Osasco",
+    "uf": "SP",
+    "zipcode": "ZIPCODE",
+    "coordinates": [
+      -23.5555939,
+      -46.7874398
+    ],
+    "subscribed": "2017-09-26T00:30:36.668Z"
+  },
+  {
+    "_id": "59c99fac8cd9d76ecf7c61c5",
+    "name": "Sorveteria Gourmet",
+    "description": "Melhores sorvetes da região",
+    "cnpj": "25493685000186",
+    "phone": "11999999999",
+    "retailerId": {
+      ...retailer_object...
+    },
+    "formatted_address": "Endereço Formatado, 1154, Osasco, SP",
+    "street": "St Quero Pontos",
+    "number": "01",
+    "city": "Osasco",
+    "uf": "SP",
+    "zipcode": "ZIPCODE",
+    "coordinates": [
+      -23.5555939,
+      -46.7874398
+    ],
+    "subscribed": "2017-09-26T00:30:36.668Z"
+  },
+]
+```
+
+Esse endpoint retorna todas as lojas cadastradas no sistema
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/stores`
+
+## GET store
+
+```shell
+curl "https://www.queropontos.com.br/stores/<store_id>"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X GET
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "59c99fac8cd9d76ecf7c61c5",
+  "name": "Salão de Barbearia Hipster",
+  "description": "Barbearia e produtos para cuidados facial masculino. Aberto de terça a domingo à partir das 14h. Consulte agenda no site www.barbeariahipster.com.br",
+  "cnpj": "25493685000186",
+  "phone": "11999999999",
+  "retailerId": {
+    ...retailer_object...
+  },
+  "formatted_address": "Endereço Formatado, 1154, Osasco, SP",
+  "street": "St Quero Pontos",
+  "number": "01",
+  "city": "Osasco",
+  "uf": "SP",
+  "zipcode": "ZIPCODE",
+  "coordinates": [
+    -23.5555939,
+    -46.7874398
+  ],
+  "subscribed": "2017-09-26T00:30:36.668Z"
+}
+```
+
+Esse endpoint retorna uma loja especifica
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/stores/<store_id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+store_id | Id da loja
+
+## EDIT store
+
+```shell
+curl "https://www.queropontos.com.br/stores/<store_id>"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X PUT
+  -d "{description: 'Barbearia e produtos para cuidados facial masculino.'}"
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "59c99fac8cd9d76ecf7c61c5",
+  "name": "Salão de Barbearia Hipster",
+  "description": "Barbearia e produtos para cuidados facial masculino.",
+  "cnpj": "25493685000186",
+  "phone": "11999999999",
+  "retailerId": {
+    ...retailer_object...
+  },
+  "formatted_address": "Endereço Formatado, 1154, Osasco, SP",
+  "street": "St Quero Pontos",
+  "number": "01",
+  "city": "Osasco",
+  "uf": "SP",
+  "zipcode": "ZIPCODE",
+  "coordinates": [
+    -23.5555939,
+    -46.7874398
+  ],
+  "subscribed": "2017-09-26T00:30:36.668Z"
+}
+```
+
+Esse endpoint edita uma loja especifica
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/stores/<store_id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+store_id | Id da loja
+
+## DELETE store
+
+```shell
+curl "https://www.queropontos.com.br/stores/<store_id>"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X DELETE
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "59c99fac8cd9d76ecf7c61c5",
+  "name": "Salão de Barbearia Hipster",
+  "description": "Barbearia e produtos para cuidados facial masculino.",
+  "cnpj": "25493685000186",
+  "phone": "11999999999",
+  "retailerId": {
+    ...retailer_object...
+  },
+  "formatted_address": "Endereço Formatado, 1154, Osasco, SP",
+  "street": "St Quero Pontos",
+  "number": "01",
+  "city": "Osasco",
+  "uf": "SP",
+  "zipcode": "ZIPCODE",
+  "coordinates": [
+    -23.5555939,
+    -46.7874398
+  ],
+  "subscribed": "2017-09-26T00:30:36.668Z"
+}
+```
+
+Esse endpoint apaga uma loja especifica
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/stores/<store_id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+store_id | Id da loja
+
+## GET store by retailer Id
+
+```shell
+curl "https://www.queropontos.com.br/stores/retailers/<retailer_id>"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X GET
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+[{
+  "_id": "59c99fac8cd9d76ecf7c61c5",
+  "name": "Salão de Barbearia Hipster",
+  "description": "Barbearia e produtos para cuidados facial masculino. Aberto de terça a domingo à partir das 14h. Consulte agenda no site www.barbeariahipster.com.br",
+  "cnpj": "25493685000186",
+  "phone": "11999999999",
+  "retailerId": {
+    ...retailer_object...
+  },
+  "formatted_address": "Endereço Formatado, 1154, Osasco, SP",
+  "street": "St Quero Pontos",
+  "number": "01",
+  "city": "Osasco",
+  "uf": "SP",
+  "zipcode": "ZIPCODE",
+  "coordinates": [
+    -23.5555939,
+    -46.7874398
+  ],
+  "subscribed": "2017-09-26T00:30:36.668Z"
+}]
+```
+
+Esse endpoint retorna todas as lojas de um retailer especifico
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/stores/retailers/<retailer_id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+retailer_id | Id do retailer
+
+# Cashiers
+
+## GET all cashiers
+
+```shell
+curl "https://www.queropontos.com.br/cashiers"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X GET
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+[
+  {
+    "_id": "59c9a08a8cd9d76ecf7c61c6", // ID DO CAIXA
+    "name": "Caixa 01", // NOME DO CAIXA
+    "cpf": "99999999999", // CPF DO CAIXA
+    "email": "caixa01@email.com", // EMAIL DO CAIXA
+    "phone": "1199999999", // PHONE DO CAIXA
+    "storeId": "59c99fac8cd9d76ecf7c61c5", // LOJA A QUAL O CAIXA PERTENCE
+    "retailerId": "59c99fac8cd9d76ecf7c61c3", // RETAILER A QUAL O CAIXA E LOJA PERTECEM
+  },
+  {
+    "_id": "59db346f2c84ae4d2ebc4772", // ID DO CAIXA
+    "name": "Caixa 02", // NOME DO CAIXA
+    "cpf": "99999999999", // CPF DO CAIXA
+    "email": "caixa02@email.com", // EMAIL DO CAIXA
+    "phone": "1199999999", // PHONE DO CAIXA
+    "storeId": "59c99fac8cd9d76ecf7c61c5", // LOJA A QUAL O CAIXA PERTENCE
+    "retailerId": "59c99fac8cd9d76ecf7c61c3", // RETAILER A QUAL O CAIXA E LOJA PERTECEM
+  },
+]
+```
+
+Esse endpoint retorna todos os caixas cadastrados no sistema
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/cashiers`
+
+## Create cashier
+
+```shell
+curl "https://www.queropontos.com.br/cashiers/"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X POST
+  -d '{name: "Caixa 01", cpf: "99999999999", email: "caixa01@email.com", phone: "1199999999", storeId: "59c99fac8cd9d76ecf7c61c5", retailerId: "59c99fac8cd9d76ecf7c61c3"}'
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "59c9a08a8cd9d76ecf7c61c6", // ID DO CAIXA
+  "name": "Caixa 01", // NOME DO CAIXA
+  "cpf": "99999999999", // CPF DO CAIXA
+  "email": "caixa01@email.com", // EMAIL DO CAIXA
+  "phone": "1199999999", // PHONE DO CAIXA
+  "storeId": "59c99fac8cd9d76ecf7c61c5", // LOJA A QUAL O CAIXA PERTENCE
+  "retailerId": "59c99fac8cd9d76ecf7c61c3", // RETAILER A QUAL O CAIXA E LOJA PERTECEM
+},
+```
+
+Esse endpoint retorna todos os caixas cadastrados em uma loja
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/cashiers/`
+
+## Edit cashiers
+
+```shell
+curl "https://www.queropontos.com.br/cashiers/"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X PUT
+  -d '{"_id": "59c9a08a8cd9d76ecf7c61c6", "name": "John Doe"}'
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+{
+  "_id": "59c9a08a8cd9d76ecf7c61c6", // ID DO CAIXA
+  "name": "John Doe", // NOME DO CAIXA
+  "cpf": "99999999999", // CPF DO CAIXA
+  "email": "caixa01@email.com", // EMAIL DO CAIXA
+  "phone": "1199999999", // PHONE DO CAIXA
+  "storeId": "59c99fac8cd9d76ecf7c61c5", // LOJA A QUAL O CAIXA PERTENCE
+  "retailerId": "59c99fac8cd9d76ecf7c61c3", // RETAILER A QUAL O CAIXA E LOJA PERTECEM
+},
+```
+
+Esse endpoint retorna todos os caixas cadastrados em uma loja
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/cashiers/`
+
+## Get cashiers by store id
+
+```shell
+curl "https://www.queropontos.com.br/cashiers/<store_id>"
+  -H "Content-Type: application/json" 
+  -H "x-access-token: auth_token" 
+  -X GET
+```
+
+> O comando acima retorna um JSON estruturado dessa forma:
+
+```json
+[
+  {
+    "_id": "59c9a08a8cd9d76ecf7c61c6", // ID DO CAIXA
+    "name": "Caixa 01", // NOME DO CAIXA
+    "cpf": "99999999999", // CPF DO CAIXA
+    "email": "caixa01@email.com", // EMAIL DO CAIXA
+    "phone": "1199999999", // PHONE DO CAIXA
+    "storeId": "59c99fac8cd9d76ecf7c61c5", // LOJA A QUAL O CAIXA PERTENCE
+    "retailerId": "59c99fac8cd9d76ecf7c61c3", // RETAILER A QUAL O CAIXA E LOJA PERTECEM
+  },
+  {
+    "_id": "59db346f2c84ae4d2ebc4772", // ID DO CAIXA
+    "name": "Caixa 02", // NOME DO CAIXA
+    "cpf": "99999999999", // CPF DO CAIXA
+    "email": "caixa02@email.com", // EMAIL DO CAIXA
+    "phone": "1199999999", // PHONE DO CAIXA
+    "storeId": "59c99fac8cd9d76ecf7c61c5", // LOJA A QUAL O CAIXA PERTENCE
+    "retailerId": "59c99fac8cd9d76ecf7c61c3", // RETAILER A QUAL O CAIXA E LOJA PERTECEM
+  },
+]
+```
+
+Esse endpoint retorna todos os caixas cadastrados em uma loja
+
+### HTTP Request
+
+`GET https://www.queropontos.com.br/cashiers/<store_id>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+store_id | Id da loja
